@@ -1,6 +1,6 @@
 #define SLIMR_TEST_MAIN
-#include "slimr/test.hpp"
-#include "slimr/time.hpp"
+#include "test.hpp"
+#include "time.hpp"
 
 using namespace slimr;
 
