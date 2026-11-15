@@ -30,7 +30,7 @@ struct ThreadSafeTzGuard {
 
     explicit ThreadSafeTzGuard(std::string_view tz) {
         g_time_tz_mutex.lock();
-        const char* cur = std::getenv("TZ");
+        const char *cur = std::getenv("TZ");
         if (cur) {
             old_tz = cur;
             had_old = true;
@@ -131,9 +131,12 @@ inline std::expected<int64_t, std::string> parse_iso8601_utc(std::string_view is
                 int off_h = std::stoi(std::string(iso_str.substr(tz_pos + 1, 2)));
                 int off_m = std::stoi(std::string(iso_str.substr(tz_pos + 4, 2)));
                 int64_t offset_sec = off_h * 3600 + off_m * 60;
-                if (sign == '+') total_sec -= offset_sec;
-                else if (sign == '-') total_sec += offset_sec;
-            } catch (...) {}
+                if (sign == '+')
+                    total_sec -= offset_sec;
+                else if (sign == '-')
+                    total_sec += offset_sec;
+            } catch (...) {
+            }
         }
     }
 
