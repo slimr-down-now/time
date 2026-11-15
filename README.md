@@ -62,13 +62,31 @@ int main() {
 | `parse_iso8601_utc` | `inline std::expected<int64_t, std::string> parse_iso8601_utc(std::string_view iso_str)` | Parses ISO-8601 date-time string into UTC epoch seconds within `std::expected`. |
 | `civil_day_bounds` | `inline std::expected<CivilDayBounds, std::string> civil_day_bounds(std::string_view yyyy_mm_dd, std::string_view tz = "Europe/Dublin")` | Computes UTC start and end bounds for civil day `YYYY-MM-DD` in given timezone. |
 
-## Build & Test
+## Install
 
-This folder owns its header, `test.cpp`, CMake target/config, manifest, port recipe and licenses. See the [integration guide](../../README.md#integration-vcpkg--cmakeninja).
+Add `bdombro/slimr-time` to `vcpkg-configuration.json`:
 
-```bash
-just test-pkg time  # From the repository root; automatic native deps + ASan/UBSan
-just build         # All optimized Release suites
+```json
+{
+  "kind": "git",
+  "repository": "https://github.com/bdombro/slimr-time",
+  "baseline": "<commit-sha>",
+  "packages": [
+    "slimr-time"
+  ]
+}
 ```
 
-Generated output stays under root `build/deps/` and `build/cmake/{Debug,Release}/`. Consumers link `slimr::time` from `find_package(slimr-time CONFIG REQUIRED)`. The optional manifest `tests` feature keeps test dependencies out of production consumption.
+Declare `slimr-time` in `vcpkg.json` and link `slimr::time` in `CMakeLists.txt`:
+
+```cmake
+find_package(slimr-time CONFIG REQUIRED)
+target_link_libraries(my_target PRIVATE slimr::time)
+```
+
+## Build & Test
+
+```bash
+just test   # Debug build (ASan + UBSan) and run tests
+just build  # Optimized Release build
+```
