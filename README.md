@@ -1,4 +1,4 @@
-# slimr::time (`packages/time`)
+# slimr::time
 
 Fast, robust C++26 timezone-aware date and time library supporting ISO-8601 formatting/parsing, epoch seconds/milliseconds conversions, and civil day bounds calculation across arbitrary IANA time zones.
 
@@ -11,7 +11,27 @@ Borrowed directly from the design of [`@slimr/time`](https://www.npmjs.com/packa
 - **Thread-safe Timezone Handling:** Uses thread-safe mutex and environment guards (`TZ`) for correct timezone calculations.
 - **`std::expected` Error Handling:** Clean result types for robust validation of date strings and offsets.
 
----
+## Install
+
+Add `bdombro/slimr-time` to `vcpkg-configuration.json`:
+
+```json
+{
+  "kind": "git",
+  "repository": "https://github.com/bdombro/slimr-time",
+  "baseline": "<commit-sha>",
+  "packages": [
+    "slimr-time"
+  ]
+}
+```
+
+Declare `slimr-time` in `vcpkg.json` and link `slimr::time` in `CMakeLists.txt`:
+
+```cmake
+find_package(slimr-time CONFIG REQUIRED)
+target_link_libraries(my_target PRIVATE slimr::time)
+```
 
 ## Quick Start
 
@@ -62,31 +82,12 @@ int main() {
 | `parse_iso8601_utc` | `inline std::expected<int64_t, std::string> parse_iso8601_utc(std::string_view iso_str)` | Parses ISO-8601 date-time string into UTC epoch seconds within `std::expected`. |
 | `civil_day_bounds` | `inline std::expected<CivilDayBounds, std::string> civil_day_bounds(std::string_view yyyy_mm_dd, std::string_view tz = "Europe/Dublin")` | Computes UTC start and end bounds for civil day `YYYY-MM-DD` in given timezone. |
 
-## Install
+## Environment Variables
 
-Add `bdombro/slimr-time` to `vcpkg-configuration.json`:
+| Name | Required | Purpose |
+| --- | --- | --- |
+| `TZ` | Optional | Timezone used when computing civil day bounds (restored after each call). |
 
-```json
-{
-  "kind": "git",
-  "repository": "https://github.com/bdombro/slimr-time",
-  "baseline": "<commit-sha>",
-  "packages": [
-    "slimr-time"
-  ]
-}
-```
+## Development
 
-Declare `slimr-time` in `vcpkg.json` and link `slimr::time` in `CMakeLists.txt`:
-
-```cmake
-find_package(slimr-time CONFIG REQUIRED)
-target_link_libraries(my_target PRIVATE slimr::time)
-```
-
-## Build & Test
-
-```bash
-just test   # Debug build (ASan + UBSan) and run tests
-just build  # Optimized Release build
-```
+See [docs/development.md](docs/development.md) for building, testing, linting, and releasing.
