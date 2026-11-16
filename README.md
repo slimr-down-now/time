@@ -13,12 +13,12 @@ Borrowed directly from the design of [`@slimr/time`](https://www.npmjs.com/packa
 
 ## Install
 
-Add `bdombro/slimr-time` to `vcpkg-configuration.json`:
+Add `slimr-down-now/time` to `vcpkg-configuration.json`:
 
 ```json
 {
   "kind": "git",
-  "repository": "https://github.com/bdombro/slimr-time",
+  "repository": "https://github.com/slimr-down-now/time",
   "baseline": "<commit-sha>",
   "packages": [
     "slimr-time"
