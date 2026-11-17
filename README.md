@@ -82,6 +82,20 @@ int main() {
 | `parse_iso8601_utc` | `inline std::expected<int64_t, std::string> parse_iso8601_utc(std::string_view iso_str)` | Parses ISO-8601 date-time string into UTC epoch seconds within `std::expected`. |
 | `civil_day_bounds` | `inline std::expected<CivilDayBounds, std::string> civil_day_bounds(std::string_view yyyy_mm_dd, std::string_view tz = "Europe/Dublin")` | Computes UTC start and end bounds for civil day `YYYY-MM-DD` in given timezone. |
 
+## Develop against an unreleased lib
+
+Add `"overlay-ports"` to the consumer's `vcpkg-configuration.json`, then run `just test` or `just build` as usual (add one entry per unreleased lib):
+
+```json
+{
+  "overlay-ports": [
+    "<relative path to ~/dev/slimr/<name>/ports/slimr-<name>>"
+  ]
+}
+```
+
+Remove `"overlay-ports"` and bump the registry baseline once the lib is released. Never commit or release with `overlay-ports` set.
+
 ## Environment Variables
 
 | Name | Required | Purpose |
